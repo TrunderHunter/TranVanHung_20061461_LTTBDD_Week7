@@ -9,7 +9,13 @@ import {
 import React from "react";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 
-const HomeScreen = () => {
+import { NavigationProp } from "@react-navigation/native";
+
+interface HomeScreenProps {
+  navigation: NavigationProp<any>;
+}
+
+const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   return (
     <View style={styles.homeScreenContainer}>
       <Image
@@ -29,7 +35,10 @@ const HomeScreen = () => {
           style={styles.textInputStyle}
         />
       </View>
-      <TouchableOpacity style={styles.getStartButton}>
+      <TouchableOpacity
+        style={styles.getStartButton}
+        onPress={() => navigation.navigate("TaskList")}
+      >
         <Text
           style={styles.buttonText}
           onPress={() => console.log("Get Started")}
