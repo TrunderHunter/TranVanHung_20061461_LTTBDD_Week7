@@ -43,9 +43,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         style={styles.getStartButton}
         onPress={() => navigation.navigate("TaskList", { name })}
       >
-        <Text style={styles.buttonText} onPress={() => console.log({ name })}>
-          Get Started
-        </Text>
+        <Text style={styles.buttonText}>Get Started</Text>
         <AntDesign name="arrowright" size={24} color="white" />
       </TouchableOpacity>
     </View>

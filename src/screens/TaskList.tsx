@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import Manager from "../components/Manager";
 import TaskItem from "../components/TaskItem";
@@ -17,8 +17,32 @@ interface TaskListProps {
   route: any;
 }
 
+interface Task {
+  task: string;
+  id: number;
+}
+
 const TaskList: React.FC<TaskListProps> = ({ navigation, route }) => {
   const { name } = route.params;
+
+  const [taskList, setTaskList] = useState<Task[]>([]);
+
+  // Get api data from https://66ff37f82b9aac9c997e8e03.mockapi.io/TaskList
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "https://66ff37f82b9aac9c997e8e03.mockapi.io/TaskList"
+      );
+      const data = await response.json();
+      setTaskList(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [{}]);
 
   return (
     <View style={styles.container}>
@@ -65,22 +89,16 @@ const TaskList: React.FC<TaskListProps> = ({ navigation, route }) => {
             alignItems: "center",
           }}
           showsVerticalScrollIndicator={false}
-          data={[
-            { key: "Task 1" },
-            { key: "Task 2" },
-            { key: "Task 3" },
-            { key: "Task 4" },
-            { key: "Task 5" },
-            { key: "Task 6" },
-            { key: "Task 7" },
-            { key: "Task 8" },
-            { key: "Task 9" },
-            { key: "Task 10" },
-          ]}
-          renderItem={({ item }) => <TaskItem title={item.key} />}
+          data={taskList.length === 0 ? [] : taskList}
+          renderItem={({ item }) => (
+            <TaskItem task={item} navigation={navigation} name={name} />
+          )}
         />
       </View>
-      <TouchableOpacity style={styles.buttonAddTask}>
+      <TouchableOpacity
+        style={styles.buttonAddTask}
+        onPress={() => navigation.navigate("AddJob", { name })}
+      >
         <AntDesign name="plus" size={32} color="white" />
       </TouchableOpacity>
     </View>
