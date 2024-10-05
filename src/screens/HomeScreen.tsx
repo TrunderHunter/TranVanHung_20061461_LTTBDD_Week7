@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 
 import { NavigationProp } from "@react-navigation/native";
@@ -16,6 +16,8 @@ interface HomeScreenProps {
 }
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+  const [name, setName] = useState("");
+
   return (
     <View style={styles.homeScreenContainer}>
       <Image
@@ -33,16 +35,15 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         <TextInput
           placeholder="Enter your name"
           style={styles.textInputStyle}
+          value={name}
+          onChangeText={(text) => setName(text)}
         />
       </View>
       <TouchableOpacity
         style={styles.getStartButton}
-        onPress={() => navigation.navigate("TaskList")}
+        onPress={() => navigation.navigate("TaskList", { name })}
       >
-        <Text
-          style={styles.buttonText}
-          onPress={() => console.log("Get Started")}
-        >
+        <Text style={styles.buttonText} onPress={() => console.log({ name })}>
           Get Started
         </Text>
         <AntDesign name="arrowright" size={24} color="white" />

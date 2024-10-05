@@ -1,7 +1,11 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const Manager = () => {
+interface ManagerProps {
+  name: string;
+}
+
+const Manager: React.FC<ManagerProps> = ({ name }) => {
   return (
     <View style={styles.container}>
       <Image
@@ -15,7 +19,7 @@ const Manager = () => {
             fontSize: 20,
           }}
         >
-          Manager
+          {name}
         </Text>
         <Text
           style={{

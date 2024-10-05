@@ -1,20 +1,40 @@
-import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import Manager from "../components/Manager";
 import TaskItem from "../components/TaskItem";
+import { NavigationProp } from "@react-navigation/native";
 
-const TaskList = () => {
+interface TaskListProps {
+  navigation: NavigationProp<any>;
+  route: any;
+}
+
+const TaskList: React.FC<TaskListProps> = ({ navigation, route }) => {
+  const { name } = route.params;
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <AntDesign name="arrowleft" size={24} color="black" />
+        <AntDesign
+          name="arrowleft"
+          size={24}
+          color="black"
+          onPress={() => navigation.navigate("Home")}
+        />
         <View
           style={{
             width: "60%",
           }}
         >
-          <Manager />
+          <Manager name={name} />
         </View>
       </View>
       <View style={styles.textInputContainer}>
@@ -60,6 +80,9 @@ const TaskList = () => {
           renderItem={({ item }) => <TaskItem title={item.key} />}
         />
       </View>
+      <TouchableOpacity style={styles.buttonAddTask}>
+        <AntDesign name="plus" size={32} color="white" />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -97,5 +120,14 @@ const styles = StyleSheet.create({
     width: "90%",
     marginTop: 30,
     alignContent: "center",
+  },
+  buttonAddTask: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: "#00BDD6",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 28,
   },
 });
